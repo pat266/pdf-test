@@ -9,6 +9,22 @@ namespace PDF_test
         /**
          * https://www.e-iceblue.com/Tutorials/Spire.PDF/Spire.PDF-Program-Guide/PDF-FormField/Fill-Form-Fields-in-PDF-File-with-C.html
          */
+        
+        private static IDictionary<string, string> sampleDataTextbox = new Dictionary<string, string>()
+        {
+            {"Consignment Number1", "21321" },
+            {"Item1", "12ds" },
+            {"Date Span1", "08-19-2022" },
+            {"Location number from transmittal1", "AAA-sdsa" },
+            {"Number of CopiesRow1", "12" },
+            {"Retrieved by", "Pat" },
+        };
+
+        private static HashSet<string> sampleDataCheckbox = new HashSet<string>()
+        {
+            {"Furnish Copy" },
+            {"SRC Delivery" },
+        };
         static void Main(string[] args)
         {
             PdfDocument doc = new PdfDocument();
@@ -21,27 +37,9 @@ namespace PDF_test
                 if (field is PdfTextBoxFieldWidget)
                 {
                     PdfTextBoxFieldWidget textBoxField = (PdfTextBoxFieldWidget) field;
-                    switch (textBoxField?.Name)
+                    if (sampleDataTextbox.ContainsKey(textBoxField.Name))
                     {
-                        case "Consignment Number1":
-                            textBoxField.Text = "support@e-iceblue.com";
-                            break;
-                        case "Item1":
-                            textBoxField.Text = "E-iceblue";
-                            break;
-                        case "Date Span1":
-                            textBoxField.Text = "e-iceblue";
-                            break;
-                        case "Location number from transmittal1":
-                            textBoxField.Text = "e-iceblue";
-                            break;
-                        case "Number of CopiesRow1":
-                            textBoxField.Text = "0";
-                            break;
-                        case "Retrieved by":
-                            textBoxField.Text = "Pat";
-                            break;
-                            
+                        textBoxField.Text = sampleDataTextbox[textBoxField.Name];
                     }
                 }
                 
@@ -49,14 +47,9 @@ namespace PDF_test
                 if (field is PdfCheckBoxWidgetFieldWidget)
                 {
                     PdfCheckBoxWidgetFieldWidget checkBoxField = (PdfCheckBoxWidgetFieldWidget) field;
-                    switch (checkBoxField.Name)
+                    if (sampleDataCheckbox.Contains(checkBoxField.Name))
                     {
-                        case "Furnish Copy":
-                            checkBoxField.Checked = true;
-                            break;
-                        case "SRC Delivery":
-                            checkBoxField.Checked = true;
-                            break;
+                        checkBoxField.Checked = true;
                     }
                 }
             }
