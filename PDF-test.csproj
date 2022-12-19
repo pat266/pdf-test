@@ -5,6 +5,11 @@
     <RootNamespace>PDF_test</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FreeSpire.PDF" Version="8.6.0" />
+  </ItemGroup>
 
 </Project>
