@@ -27,13 +27,14 @@ namespace PDF_test
         };
         static void Main(string[] args)
         {
-            PdfDocument doc = new PdfDocument();
-            doc.LoadFromFile(@"..\..\..\BlankRequestForm.pdf");
-            PdfFormWidget formWidget = (PdfFormWidget) doc.Form;
-            for (int i = 0; i < formWidget.FieldsWidget.List.Count; i++)
+            PdfDocument mainDoc = new PdfDocument(); 
+            PdfDocument doc1 = new PdfDocument();
+            doc1.LoadFromFile(@"..\..\..\BlankRequestForm.pdf");
+            PdfFormWidget formWidget1 = (PdfFormWidget) doc1.Form;
+            for (int i = 0; i < formWidget1.FieldsWidget.List.Count; i++)
             {
                 //Fill the data for Text Box field
-                PdfField field = (PdfField) formWidget.FieldsWidget.List[i];
+                PdfField field = (PdfField) formWidget1.FieldsWidget.List[i];
                 if (field is PdfTextBoxFieldWidget)
                 {
                     PdfTextBoxFieldWidget textBoxField = (PdfTextBoxFieldWidget) field;
@@ -53,7 +54,39 @@ namespace PDF_test
                     }
                 }
             }
-            doc.SaveToFile(@"..\..\..\FilledRequestForm.pdf");
+
+            PdfDocument doc2 = new PdfDocument();
+            doc2.LoadFromFile(@"..\..\..\BlankRequestForm.pdf");
+            PdfFormWidget formWidget2 = (PdfFormWidget)doc2.Form;
+            for (int i = 0; i < formWidget2.FieldsWidget.List.Count; i++)
+            {
+                //Fill the data for Text Box field
+                PdfField field = (PdfField)formWidget2.FieldsWidget.List[i];
+                if (field is PdfTextBoxFieldWidget)
+                {
+                    PdfTextBoxFieldWidget textBoxField = (PdfTextBoxFieldWidget)field;
+                    if (sampleDataTextbox.ContainsKey(textBoxField.Name))
+                    {
+                        textBoxField.Text = sampleDataTextbox[textBoxField.Name];
+                    }
+                }
+
+                //// Check or uncheck on Check Box field
+                //if (field is PdfCheckBoxWidgetFieldWidget)
+                //{
+                //    PdfCheckBoxWidgetFieldWidget checkBoxField = (PdfCheckBoxWidgetFieldWidget)field;
+                //    if (sampleDataCheckbox.Contains(checkBoxField.Name))
+                //    {
+                //        checkBoxField.Checked = true;
+                //    }
+                //}
+            }
+
+
+            // test adding another document
+            mainDoc.AppendPage(doc1);
+            mainDoc.AppendPage(doc2);
+            mainDoc.SaveToFile(@"..\..\..\FilledRequestForm.pdf");
         }
     }
 }
