@@ -86,7 +86,18 @@ namespace PDF_test
             // test adding another document
             mainDoc.AppendPage(doc1);
             mainDoc.AppendPage(doc2);
+            // export file
             mainDoc.SaveToFile(@"..\..\..\FilledRequestForm.pdf");
+
+            // Found from here: https://www.syncfusion.com/kb/4629/how-to-convert-the-pdf-stored-in-a-pdfdocument-object-to-byte-array
+            // Creates a new Memory stream
+            MemoryStream stream = new MemoryStream();
+            // Saves the document as stream
+            mainDoc.SaveToStream(stream, FileFormat.PDF);
+            mainDoc.Close();
+            // Converts the PdfDocument object to byte form.
+            byte[] docBytes = stream.ToArray();
+            System.Diagnostics.Debug.WriteLine(System.Text.Encoding.Default.GetString(docBytes));
         }
     }
 }
